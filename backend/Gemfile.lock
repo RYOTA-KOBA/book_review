@@ -66,11 +66,15 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     ast (2.4.2)
     builder (3.2.4)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     diff-lcs (1.5.0)
+    diffy (3.4.2)
     erubi (1.11.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -145,6 +149,9 @@ GEM
     rake (13.0.6)
     regexp_parser (2.6.0)
     rexml (3.2.5)
+    ridgepole (1.2.0)
+      activerecord (>= 5.1, < 7.1)
+      diffy
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.1)
@@ -202,11 +209,13 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  annotate
   factory_bot_rails
   jbuilder
   mysql2
   puma
   rails
+  ridgepole
   rspec-rails
   rubocop
   rubocop-performance
