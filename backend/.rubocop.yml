@@ -1,0 +1,15 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rake
+  - rubocop-rspec
+  - rubocop-thread_safety
+
+AllCops:
+  Exclude:
+    - bin/*
+    - db/*schema.rb
+    - vendor/**/*
+    - tmp/**/*
+  NewCops: disable
+  SuggestExtensions: false
