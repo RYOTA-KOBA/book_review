@@ -9,6 +9,7 @@ gem 'jbuilder'
 gem 'mysql2'
 gem 'puma'
 gem 'rails'
+gem 'redis'
 gem 'ridgepole'
 
 group :development, :test do

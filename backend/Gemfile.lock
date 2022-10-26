@@ -75,6 +75,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     concurrent-ruby (1.1.10)
+    connection_pool (2.3.0)
     crass (1.0.6)
     diff-lcs (1.5.0)
     diffy (3.4.2)
@@ -151,6 +152,10 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
+    redis (5.0.5)
+      redis-client (>= 0.9.0)
+    redis-client (0.10.0)
+      connection_pool
     regexp_parser (2.6.0)
     rexml (3.2.5)
     ridgepole (1.2.0)
@@ -227,6 +232,7 @@ DEPENDENCIES
   mysql2
   puma
   rails
+  redis
   ridgepole
   rspec-rails
   rubocop

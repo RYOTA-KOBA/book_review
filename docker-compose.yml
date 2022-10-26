@@ -8,11 +8,14 @@ services:
       - ./backend:/usr/src/app
     stdin_open: true
     tty: true
+    env_file:
+      - env/backend.env
     command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
       - 3101:3000
     depends_on:
       - db
+      - redis
     networks:
       - attendance-network
 
@@ -27,8 +30,17 @@ services:
     networks:
       - attendance-network
 
+  redis:
+    image: redis:7.0
+    volumes:
+      - redis-data:/data
+    networks:
+      - attendance-network
+
 volumes:
   db-data:
+    driver: local
+  redis-data:
     driver: local
 
 networks:
