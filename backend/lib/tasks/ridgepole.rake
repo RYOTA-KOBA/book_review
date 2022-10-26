@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Rake/MethodDefinitionInTask
 namespace :ridgepole do
   desc 'ridgepole --apply'
   task apply: :environment do
@@ -32,3 +33,4 @@ namespace :ridgepole do
     ]
   end
 end
+# rubocop:enable Rake/MethodDefinitionInTask
