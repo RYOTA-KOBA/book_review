@@ -1,0 +1,36 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    volumes:
+      - ./backend:/usr/src/app
+    stdin_open: true
+    tty: true
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - 3101:3000
+    depends_on:
+      - db
+    networks:
+      - attendance-network
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3102:3306
+    networks:
+      - attendance-network
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  attendance-network:
+    driver: bridge
