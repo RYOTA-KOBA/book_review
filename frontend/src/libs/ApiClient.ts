@@ -1,8 +1,8 @@
-import Axios, { AxiosResponse, AxiosError } from 'axios';
+import Axios, { AxiosResponse, AxiosError } from "axios";
 
 export const ApiClient = Axios.create({
   baseURL: `http://localhost:3100`,
-  withCredentials: true
+  withCredentials: true,
 });
 
 ApiClient.interceptors.response.use(
