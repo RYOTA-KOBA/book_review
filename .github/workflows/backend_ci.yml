@@ -34,7 +34,9 @@ jobs:
         run: docker-compose exec -T backend bundle ex rubocop
 
       - name: Setup Database
-        run: docker-compose exec -T backend bundle ex rails db:create ridgepole:apply
+        run: |
+          docker-compose exec -T backend bundle ex rails db:create RAILS_ENV=test
+          docker-compose exec -T backend bundle ex rails ridgepole:apply RAILS_ENV=test
 
       - name: Run RSpec
         run: docker-compose exec -T backend bundle ex rspec
