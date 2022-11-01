@@ -1,9 +1,0 @@
-#!/bin/bash
-set -eux
-
-ROOT_DIR=$(cd $(dirname $0); cd ..; pwd)
-# rm -rf frontend/node_modules
-docker network inspect attendance-network >/dev/null 2>&1 || docker network create attendance-network
-docker-compose build
-# docker-compose run --rm frontend sh -c "rm -rf node_modules && yarn install"
-docker-compose run --rm backend bundle exec rails db:create

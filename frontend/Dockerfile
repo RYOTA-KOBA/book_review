@@ -1,4 +1,4 @@
-FROM node:19.0-alpine
+FROM node:19.0-bullseye
 
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
