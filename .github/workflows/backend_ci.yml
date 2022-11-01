@@ -6,14 +6,7 @@ on:
       - main
 
 env:
-  TZ: "Asia/Tokyo"
-  DOCKER_BUILDKIT: 1
-  DOCKER_FILE_PATH: backend/Dockerfile
-  COMPOSE_DOCKER_CLI_BUILD: 1
-  APP_IMAGE_TAG: attendance_backend
-  APP_IMAGE_CACHE_TAG: attendance_backend-cache
-  IMAGE_CACHE_DIR: /tmp/cache/docker-image
-  IMAGE_CACHE_KEY: cache-image
+  DOCKERIZE_VERSION: v0.6.1
 
 jobs:
   ci:
@@ -23,25 +16,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Prepare dockerize
-        env:
-          DOCKERIZE_VERSION: "v0.6.1"
+      - name: Prepare dockerize for build
         run: |
-          wget https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
-          sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
-          sudo rm dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
+          wget https://github.com/jwilder/dockerize/releases/download/${{ env.DOCKERIZE_VERSION }}/dockerize-linux-amd64-${{ env.DOCKERIZE_VERSION }}.tar.gz
+          sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-${{ env.DOCKERIZE_VERSION }}.tar.gz
+          rm dockerize-linux-amd64-${{ env.DOCKERIZE_VERSION }}.tar.gz
 
-      - name: Start up docker container
+      - name: docker-compose build
         run: |
-          docker-compose up -d --build backend
-          dockerize -wait tcp://127.0.0.1:3102 -timeout 120s
+          docker network inspect attendance-network >/dev/null 2>&1 || docker network create attendance-network
+          docker-compose up -d backend
+          dockerize -wait tcp://127.0.0.1:3101 -timeout 60s
+          dockerize -wait tcp://127.0.0.1:3102 -timeout 60s
           sleep 10
 
       - name: Run Rubocop
-        run: docker compose run --rm backend bundle ex rubocop
+        run: docker-compose exec -T backend bundle ex rubocop
 
       - name: Setup Database
-        run: docker compose run --rm backend bundle ex rails db:create ridgepole:apply
+        run: docker-compose exec -T backend bundle ex rails db:create ridgepole:apply
 
       - name: Run RSpec
-        run: docker compose run --rm backend bundle ex rspec
+        run: docker-compose exec -T backend bundle ex rspec

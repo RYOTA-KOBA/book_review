@@ -10,8 +10,6 @@ services:
     command: sh -c "cd /usr/src/app && yarn run dev"
     ports:
       - "3100:3000"
-    depends_on:
-      - backend
     networks:
       - attendance-network
 

@@ -8,9 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint src --ext .js,jsx,.ts,.tsx --fix",
-    "prettier:fix": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}'",
+    "prettier": "prettier 'src/**/*.{js,ts,tsx,json,yml,yaml}' --ignore-path .gitignore --check",
+    "prettier:fix": "prettier 'src/**/*.{js,ts,tsx,json,yml,yaml}' --ignore-path .gitignore --check --write",
     "format": "yarn lint:fix && yarn prettier:fix",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --strict"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
