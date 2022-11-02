@@ -16,6 +16,7 @@ group :development, :test do
   gem 'annotate'
   gem 'bullet'
   gem 'factory_bot_rails', require: false
+  gem 'pry-rails'
   gem 'rspec-rails', require: false
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
