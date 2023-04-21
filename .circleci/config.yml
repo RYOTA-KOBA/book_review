@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  node: cimg/node:20.0.0
-  ruby: cimg/ruby:3.2.2
+  node: cimg/node@20.0.0
+  ruby: cimg/ruby@3.2.2
 
 jobs:
   frontend_lint:
