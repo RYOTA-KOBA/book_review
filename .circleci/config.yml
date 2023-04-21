@@ -16,6 +16,7 @@ jobs:
       - run: cd frontend && yarn lint
       - run: cd frontend && yarn tsc --noEmit
 
+  # lintとテスト
   backend_lint_and_test:
     executor:
       name: ruby/default
