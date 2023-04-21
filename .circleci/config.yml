@@ -33,8 +33,6 @@ jobs:
   frontend_lint:
     docker:
       - image: cimg/node:20.0.0
-    executor:
-      name: node/default
     steps:
       - checkout
       - install_yarn
