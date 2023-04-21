@@ -1,37 +1,55 @@
 version: 2.1
-orbs:
-  node: cimg/node@20.0.0
-  ruby: cimg/ruby@3.2.2
+
+commands:
+  install_yarn:
+    steps:
+      - restore_cache:
+          keys:
+            - v1-npm-{{ arch }}-{{ checksum "frontend/yarn.lock" }}
+            - v1-npm-
+      - run: cd frontend && yarn install --frozen-lockfile
+      - save_cache:
+          paths:
+            - frontend/node_modules
+          key: v1-npm-{{ arch }}-{{ checksum "frontend/yarn.lock" }}
+
+  install_gems:
+    steps:
+      - run:
+          name: Backup backend/Gemfile.lock for cache key
+          command: cp backend/Gemfile.lock backend/Gemfile.lock.bak
+      - restore_cache:
+          keys:
+            - v1-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
+            - v1-gems-
+      - run: cd backend && bundle config set path 'vendor/bundle'
+      - run: cd backend && bundle install -j4
+      - save_cache:
+          paths:
+            - backend/vendor/bundle
+          key: v1-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
 
 jobs:
   frontend_lint:
+    docker:
+      - image: cimg/node:20.0.0
     executor:
       name: node/default
     steps:
-      - checkout:
-          path: ~/book_review/frontend
-      - node/install-packages:
-          pkg-manager: yarn
-          app-dir: ~/book_review/frontend
+      - checkout
+      - install_yarn
       - run: cd frontend && yarn lint
       - run: cd frontend && yarn tsc --noEmit
 
   # lintとテスト
   backend_lint_and_test:
-    executor:
-      name: ruby/default
+    docker:
+      - image: cimg/ruby:3.2.2
     steps:
-      - checkout:
-          path: ~/book_review/backend
-      - ruby/install-deps
-      - run:
-          name: Run RSpec
-          command: bundle exec rspec
-          working_directory: ~/book_review/backend
-      - run:
-          name: Run RuboCop
-          command: bundle exec rubocop
-          working_directory: ~/book_review/backend
+      - checkout
+      - install_gems
+      - run: cd backend && bundle exec rspec
+      - run: cd backend && bundle exec rubocop
 
 workflows:
   version: 2
