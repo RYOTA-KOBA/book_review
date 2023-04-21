@@ -17,6 +17,8 @@ group :development, :test do
   gem 'bullet'
   gem 'factory_bot_rails', require: false
   gem 'pry-rails'
+  gem 'rbs', require: false
+  gem 'rbs_rails', require: false
   gem 'rspec-rails', require: false
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
@@ -24,10 +26,8 @@ group :development, :test do
   gem 'rubocop-rake', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-thread_safety', require: false
+  gem 'rubycritic', require: false
   gem 'simplecov', require: false
-  gem 'rbs', require: false
-  gem 'rbs_rails', require: false
   gem 'steep', require: false
   gem 'yard', require: false
-  gem 'rubycritic', require: false
 end
