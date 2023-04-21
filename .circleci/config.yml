@@ -1,0 +1,40 @@
+version: 2.1
+orbs:
+  node: cimg/node:20.0.0
+  ruby: cimg/ruby:3.2.2
+
+jobs:
+  frontend_lint:
+    executor:
+      name: node/default
+    steps:
+      - checkout:
+          path: ~/book_review/frontend
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: ~/book_review/frontend
+      - run: cd frontend && yarn lint
+      - run: cd frontend && yarn tsc --noEmit
+
+  backend_lint_and_test:
+    executor:
+      name: ruby/default
+    steps:
+      - checkout:
+          path: ~/book_review/backend
+      - ruby/install-deps
+      - run:
+          name: Run RSpec
+          command: bundle exec rspec
+          working_directory: ~/book_review/backend
+      - run:
+          name: Run RuboCop
+          command: bundle exec rubocop
+          working_directory: ~/book_review/backend
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - frontend_lint
+      - backend_lint_and_test
