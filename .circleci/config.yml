@@ -14,13 +14,19 @@ commands:
       - run:
           name: Build docker-compose
           command: |
+            docker network inspect book-review-network >/dev/null 2>&1 || docker network create book-review-network
             docker-compose up -d --build backend
+            dockerize -wait tcp://127.0.0.1:3306 -timeout 60s
+            dockerize -wait tcp://127.0.0.1:3510 -timeout 60s
+            sleep 10
       - run:
           name: Prepare DB for RSpec
-          command: docker-compose exec backend bundle exec rake db:create db:schema:load RAILS_ENV=test
+          command: |
+            docker-compose exec -T backend bundle ex rails db:create RAILS_ENV=test
+            docker-compose exec -T backend bundle ex rails ridgepole:apply RAILS_ENV=test
       - run:
           name: Run RSpec
-          command: docker-compose exec backend bundle exec rspec
+          command: docker-compose exec -T backend bundle ex rspec
 
   install_yarn:
     steps:
