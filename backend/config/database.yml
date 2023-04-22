@@ -11,6 +11,7 @@ development:
 test:
   <<: *default
   url: <%= ENV['DATABASE_TEST_URL'] %>
+  host: root
   database: book_review_test
   username: <%= ENV['MYSQL_ROOT_USER'] %>
   password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
