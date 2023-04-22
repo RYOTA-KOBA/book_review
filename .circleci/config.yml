@@ -20,8 +20,8 @@ commands:
           command: cp backend/Gemfile.lock backend/Gemfile.lock.bak
       - restore_cache:
           keys:
-            - v1-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
-            - v1-gems-
+            - v2-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
+            - v2-gems-
       - run:
           name: Install Bundler
           command: gem install bundler -v 1.15.0
@@ -30,7 +30,7 @@ commands:
       - save_cache:
           paths:
             - backend/vendor/bundle
-          key: v1-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
+          key: v2-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
 
 jobs:
   frontend_lint:
