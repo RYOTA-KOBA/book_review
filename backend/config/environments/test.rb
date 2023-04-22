@@ -9,6 +9,7 @@ Rails.application.configure do
     Bullet.raise         = true
   end
 
+  config.eager_load = true
   config.cache_classes = true
   config.public_file_server.enabled = true
   config.consider_all_requests_local       = true
