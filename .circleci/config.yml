@@ -80,7 +80,7 @@ jobs:
       docker_layer_caching: true
     steps:
       - checkout
-      - run: build_and_exec_rspec
+      - build_and_exec_rspec
 
 workflows:
   version: 2
