@@ -40,6 +40,7 @@ services:
       - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
     ports:
       - 3102:3306
     networks:
