@@ -53,18 +53,19 @@ jobs:
   backend_repec:
     docker:
       - image: cimg/ruby:3.2.2
+        environment:
+          - RAILS_ENV: test
       - image: cimg/mysql:8.0
-    environment:
-      - RAILS_ENV: test
-      - MYSQL_ROOT_PASSWORD: root
-      - MYSQL_ROOT_USER: root
-      - MYSQL_DATABASE: book_review_test
+        environment:
+          - MYSQL_ROOT_PASSWORD: root
+          - MYSQL_ROOT_USER: root
+          - MYSQL_DATABASE: book_review_test
     steps:
       - checkout
       - install_gems
       - run:
           name: Prepare DB for RSpec
-          command: cd backend && bundle exec rake db:create db:schema:load RAILS_ENV=test
+          command: cd backend && bundle exec rake db:create db:schema:load
       - run:
           name: Run RSpec
           command: cd backend && bundle exec rspec
