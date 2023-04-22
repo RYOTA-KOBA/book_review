@@ -32,6 +32,30 @@ commands:
             - backend/vendor/bundle
           key: v2-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
 
+  build_and_exec_rspec:
+    steps:
+      - run:
+          name: Prepare dockerize for build
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+          command: |
+            wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+      - run:
+          name: Build docker-compose
+          command: |
+            docker-compose up -d --build backend
+            dockerize -wait tcp://127.0.0.1:3306 -timeout 60s
+            dockerize -wait tcp://127.0.0.1:3510 -timeout 60s
+            sleep 10
+      - run:
+          name: Prepare DB for RSpec
+          command: docker-compose exec backend bundle exec rake db:create db:schema:load RAILS_ENV=test
+      - run:
+          name: Run RSpec
+          command: docker-compose exec backend bundle exec rspec
+
 jobs:
   frontend_lint:
     docker:
@@ -51,17 +75,12 @@ jobs:
       - run: cd backend && bundle exec rubocop
 
   backend_repec:
-    docker:
-      - image: cimg/ruby:3.2.2
+    machine:
+      image: ubuntu-2204:2022.10.1
+      docker_layer_caching: true
     steps:
       - checkout
-      - install_gems
-      - run:
-          name: Prepare DB for RSpec
-          command: cd backend && bundle exec rake db:create db:schema:load RAILS_ENV=test
-      - run:
-          name: Run RSpec
-          command: cd backend && bundle exec rspec
+      - run: build_and_exec_rspec
 
 workflows:
   version: 2
