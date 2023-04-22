@@ -22,6 +22,9 @@ commands:
           keys:
             - v1-gems-{{ arch }}-{{ checksum "backend/Gemfile.lock.bak" }}
             - v1-gems-
+      - run:
+          name: Install Bundler
+          command: gem install bundler -v 1.15.0
       - run: cd backend && bundle config set path 'vendor/bundle'
       - run: cd backend && bundle install -j4
       - save_cache:
