@@ -44,7 +44,7 @@ jobs:
 
   backend_lint:
     docker:
-      - image: cimg/ruby:3.2.2
+      - image: cimg/ruby:3.1.2
     steps:
       - checkout
       - install_gems
@@ -52,7 +52,7 @@ jobs:
 
   backend_repec:
     docker:
-      - image: cimg/ruby:3.2.2
+      - image: cimg/ruby:3.1.2
     steps:
       - checkout
       - install_gems
