@@ -6,7 +6,9 @@ default: &default
 development:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
+  database: book_review_development
 
 test:
   <<: *default
   url: <%= ENV['DATABASE_TEST_URL'] %>
+  database: book_review_test
