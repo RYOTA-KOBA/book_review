@@ -14,8 +14,6 @@ commands:
           name: Build docker-compose
           command: |
             docker-compose up -d --build backend
-            dockerize -wait tcp://127.0.0.1:3306 -timeout 60s
-            dockerize -wait tcp://127.0.0.1:3510 -timeout 60s
             sleep 10
       - run:
           name: Prepare DB for RSpec
