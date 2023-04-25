@@ -13,3 +13,6 @@ AllCops:
     - tmp/**/*
   NewCops: disable
   SuggestExtensions: false
+
+Style/Documentation:
+  Enabled: false
