@@ -6,7 +6,10 @@ default: &default
 development:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
-  database: book_review_development
+  username: root
+  password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
+  host: db
+  port: 3102
 
 test:
   <<: *default
